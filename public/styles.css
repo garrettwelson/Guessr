@@ -1,0 +1,12 @@
+h1 {
+  font-family: 'Lobster', cursive;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+#instructions {
+  font-size: '14pt';
+  word-wrap: break-word;
+}

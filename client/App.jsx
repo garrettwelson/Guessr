@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Header from './Header.jsx';
+import Container from 'react-bootstrap/Container';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,15 +11,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>
-          Hello, world! I'm Garrett
-          <span role="img" aria-label="100 Emoji and face with sunglasses emoji">
-            💯😎
-          </span>
-        </h1>
-        <p>Hello again, testing!</p>
-      </div>
+      <Container fluid>
+        <Header />
+      </Container>
     );
   }
 }

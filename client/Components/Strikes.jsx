@@ -1,10 +1,15 @@
 import React from 'react';
 
-const Strikes = props => (
-  <div className="text-center">
-    <span>{props.guesses}</span>
-    <p>Guesses left</p>
-  </div>
-);
+const Strikes = props => {
+  const { guesses, visibleMessage, message } = props;
+
+  return (
+    <div className="text-center">
+      <span>{guesses}</span>
+      <p>Guesses left</p>
+      {visibleMessage ? <p>{message}</p> : null}
+    </div>
+  );
+};
 
 export default Strikes;

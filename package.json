@@ -42,5 +42,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/garrettwelson/boilerplate"
+  },
+  "engines": {
+    "node": "10.15.3"
   }
 }

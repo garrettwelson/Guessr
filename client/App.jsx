@@ -12,7 +12,7 @@ class App extends React.Component {
       target: '',
       guesses: 6,
       currentGuess: '',
-      board: ['_', '_', '_', '_', '_'],
+      board: [],
       attemptedLetters: [],
       prefs: {
         count: 1,
@@ -21,26 +21,24 @@ class App extends React.Component {
       },
       leaderData: []
     };
+    this.prepBoard = this.prepBoard.bind(this);
   }
 
   componentDidMount() {
     const { prefs } = this.state;
     axios
       .get(`/words?count=${prefs.count}&difficulty=${prefs.difficulty}&start=${prefs.start}`)
-      .then(result => console.log('result is:', result.data));
-    // const requestConfig = {
-    //   method: 'GET',
-    //   mode: 'cors',
-    //   headers: {
-    //     Access-Control-Allow-Origin: *
-    //   }
-    // };
-    // fetch(
-    //   `http://app.linkedin-reach.io/words?count=${prefs.count}&difficulty=${prefs.difficulty}&start=${prefs.start}`,
-    //   requestConfig
-    // )
-    //   .then(res => res.text())
-    //   .then(text => console.log(text));
+      .then(result => {
+        console.log('word is:', result.data);
+        this.setState({ target: result.data }, this.prepBoard(result.data));
+      });
+  }
+
+  prepBoard(target) {
+    console.log(target);
+    this.setState({
+      board: target.split('').map(() => '?')
+    });
   }
 
   render() {

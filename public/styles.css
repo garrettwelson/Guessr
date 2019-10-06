@@ -10,3 +10,18 @@ body {
   font-size: '14pt';
   word-wrap: break-word;
 }
+
+#board {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  text-decoration: underline;
+  width: 50%;
+  font-size: 18pt;
+}
+
+#board_container {
+  display: flex;
+  justify-content: center;
+}

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node server/server.js",
+    "heroku-prebuild": "npm install",
     "webpack_dev": "webpack --mode=development --watch",
     "webpack_build": "webpack --mode=production",
     "server_dev": "nodemon server/server.js"

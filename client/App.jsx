@@ -158,12 +158,18 @@ class App extends React.Component {
       message,
       gameOver,
       victory,
-      target
+      target,
+      attemptedLetters
     } = this.state;
     return (
       <Container fluid>
         <Header />
-        <Strikes guesses={guesses} visibleMessage={visibleMessage} message={message} />
+        <Strikes
+          guesses={guesses}
+          visibleMessage={visibleMessage}
+          message={message}
+          attemptedLetters={attemptedLetters}
+        />
         <Gameboard
           board={board}
           currentGuess={currentGuess}

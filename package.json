@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon server/server.js",
+    "start": "node server/server.js",
     "webpack_dev": "webpack --mode=development --watch",
-    "webpack_build": "webpack --mode=production"
+    "webpack_build": "webpack --mode=production",
+    "server_dev": "nodemon server/server.js"
   },
   "author": "Garrett Welson",
   "license": "ISC",

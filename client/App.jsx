@@ -186,7 +186,6 @@ class App extends React.Component {
       } else {
         this.setState({
           board: newBoard,
-          attemptedLetters: [...attemptedLetters, currentGuess],
           currentGuess: ''
         });
       }

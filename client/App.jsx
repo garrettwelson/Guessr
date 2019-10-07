@@ -37,7 +37,6 @@ class App extends React.Component {
     axios
       .get(`/words?count=${prefs.count}&difficulty=${prefs.difficulty}&start=${prefs.start}`)
       .then(result => {
-        console.log('word is:', result.data);
         this.setState({ target: result.data.toLowerCase() }, this.prepBoard(result.data));
       });
   }
@@ -76,7 +75,6 @@ class App extends React.Component {
   }
 
   prepBoard(target) {
-    console.log(target);
     this.setState({
       board: target.split('').map(() => '?')
     });

@@ -13,14 +13,12 @@ app.get('/', (req, res) => {
 
 app.get('/words', (req, res) => {
   const prefs = req.query;
-  console.log(prefs);
   axios
-    .get(
-      `http://app.linkedin-reach.io/words?count=${prefs.count}&difficulty=${prefs.difficulty}&start=${prefs.start}`
-    )
+    .get(`http://app.linkedin-reach.io/words?difficulty=${prefs.difficulty}`)
     .then(response => {
-      console.log(response.data);
-      res.send(response.data);
+      const words = response.data.split('\n');
+      const index = Math.floor(Math.random() * words.length) + 1;
+      res.send(words[index]);
     })
     .catch(err => res.send(err));
 });

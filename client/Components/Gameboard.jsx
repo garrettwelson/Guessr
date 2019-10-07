@@ -31,13 +31,13 @@ const Gameboard = props => {
     return (
       <>
         <Row>
-          <div id="board_container" className="mx-auto">
+          <div id="board_container" className="mx-auto spacer">
             <div id="board">
               {board.map((letter, i) => (
                 <span key={i}> {letter} </span>
               ))}
             </div>
-            <div id="break" />
+            <div className="break" />
             <div>
               <input
                 id="guessInput"

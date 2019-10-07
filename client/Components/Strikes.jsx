@@ -6,7 +6,7 @@ const Strikes = props => {
 
   return (
     <Row>
-      <div className="text-center mx-auto">
+      <div className="text-center mx-auto spacer">
         <div className="hexTop"></div>
         <div className="hexCenter">{guesses}</div>
         <div className="hexBottom"></div>

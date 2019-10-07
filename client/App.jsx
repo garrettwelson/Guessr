@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './Components/Header.jsx';
+import Row from 'react-bootstrap/Row';
 import Strikes from './Components/Strikes.jsx';
 import Gameboard from './Components/Gameboard.jsx';
 import Container from 'react-bootstrap/Container';
@@ -21,10 +22,12 @@ class App extends React.Component {
       },
       gameOver: false,
       victory: false,
+      showPrefs: false,
       leaderData: []
     };
     this.addGuess = this.addGuess.bind(this);
     this.changeHexColor = this.changeHexColor.bind(this);
+    this.handlePrefs = this.handlePrefs.bind(this);
     this.prepBoard = this.prepBoard.bind(this);
     this.submitGuess = this.submitGuess.bind(this);
   }
@@ -63,6 +66,13 @@ class App extends React.Component {
     };
     const { guesses } = this.state;
     document.documentElement.style.setProperty('--hex-fill', colors[guesses]);
+  }
+
+  handlePrefs() {
+    let { showPrefs } = this.state;
+    this.setState({
+      showPrefs: !showPrefs
+    });
   }
 
   prepBoard(target) {
@@ -157,11 +167,12 @@ class App extends React.Component {
       gameOver,
       victory,
       target,
-      attemptedLetters
+      attemptedLetters,
+      showPrefs
     } = this.state;
     return (
       <Container>
-        <Header />
+        <Header showPrefs={showPrefs} handlePrefs={this.handlePrefs} />
         <Strikes guesses={guesses} />
         <Gameboard
           board={board}

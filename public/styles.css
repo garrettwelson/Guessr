@@ -38,9 +38,8 @@ body {
   border-radius: 25px;
 }
 
-#break {
-  flex-basis: 100%;
-  height: 0;
+.spacer {
+  margin-top: 20px;
 }
 
 /* CSS styling for Hexagon adapted from https://jtauber.github.io/articles/css-hexagon.html */

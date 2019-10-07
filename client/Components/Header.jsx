@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 const Header = props => {
-  const { showPrefs, handlePrefsModal, prefs, handlePrefsInput } = props;
+  const { showPrefs, handlePrefsModal, username, difficulty, handlePrefsInput } = props;
   return (
     <Row>
       <div className="text-center mx-auto">
@@ -25,7 +25,7 @@ const Header = props => {
             <p>Use the following fields to adjust word preferences</p>
             <Form.Control
               as="input"
-              value={prefs.username}
+              value={username}
               name="username"
               placeholder="username"
               onChange={handlePrefsInput}
@@ -35,7 +35,7 @@ const Header = props => {
               as="select"
               onChange={handlePrefsInput}
               name="difficulty"
-              value={prefs.difficulty}
+              value={difficulty}
               placeholder="difficulty"
             >
               {Array.from(new Array(10), (x, i) => i + 1).map(val => (

@@ -15,15 +15,15 @@ class App extends React.Component {
       currentGuess: '',
       board: [],
       attemptedLetters: [],
-      prefs: {
-        username: '',
-        difficulty: 2
-      },
       gameOver: false,
       victory: false,
       showPrefs: false,
-      leaderData: []
+      currentStreak: 0,
+      maxStreak: 0,
+      username: '',
+      difficulty: 3
     };
+    this.getData = this.getData.bind(this);
     this.addGuess = this.addGuess.bind(this);
     this.changeHexColor = this.changeHexColor.bind(this);
     this.handlePrefsModal = this.handlePrefsModal.bind(this);
@@ -33,9 +33,22 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { prefs } = this.state;
-    axios.get(`/words?difficulty=${prefs.difficulty}`).then(result => {
-      this.setState({ target: result.data.toLowerCase() }, this.prepBoard(result.data));
+    this.getData();
+  }
+
+  getData() {
+    axios.get(`/words`).then(result => {
+      console.log(result.data);
+      this.setState(
+        {
+          target: result.data.word.toLowerCase(),
+          currentStreak: result.data.currentStreak,
+          maxStreak: result.data.maxStreak,
+          username: result.data.username,
+          difficulty: result.data.difficulty
+        },
+        this.prepBoard(result.data.word)
+      );
     });
   }
 
@@ -67,20 +80,19 @@ class App extends React.Component {
 
   handlePrefsInput(event) {
     if (event.target.name === 'username') {
-      const prefs = { ...this.state.prefs };
-      prefs.username = event.target.value;
-      this.setState({ prefs });
+      this.setState({ username: event.target.value });
     }
 
     if (event.target.name === 'difficulty') {
-      const prefs = { ...this.state.prefs };
-      prefs.difficulty = event.target.value;
-      this.setState({ prefs });
+      this.setState({ difficulty: event.target.value });
     }
   }
 
   handlePrefsModal() {
-    let { showPrefs } = this.state;
+    const { showPrefs, username, difficulty } = this.state;
+    if (showPrefs) {
+      axios.put('/prefs', { username, difficulty });
+    }
     this.setState({
       showPrefs: !showPrefs
     });
@@ -179,7 +191,10 @@ class App extends React.Component {
       target,
       attemptedLetters,
       showPrefs,
-      prefs
+      username,
+      difficulty,
+      currentStreak,
+      maxStreak
     } = this.state;
     return (
       <Container>
@@ -187,7 +202,8 @@ class App extends React.Component {
           showPrefs={showPrefs}
           handlePrefsModal={this.handlePrefsModal}
           handlePrefsInput={this.handlePrefsInput}
-          prefs={prefs}
+          username={username}
+          difficulty={difficulty}
         />
         <Strikes guesses={guesses} />
         <Gameboard

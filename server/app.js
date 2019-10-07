@@ -1,15 +1,23 @@
 const express = require('express');
 const axios = require('axios');
-// const cors = require('cors');
+const cookieSession = require('cookie-session');
 
 const app = express();
 
 app.use(express.static('public'));
-// app.use(cors());
+
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['key1', 'key2']
+  })
+);
 
 app.get('/', (req, res) => {
   res.status(200).send();
 });
+
+app.get('/prefs', (req, res) => {});
 
 app.get('/words', (req, res) => {
   const prefs = req.query;

@@ -1,3 +1,7 @@
+:root {
+  --hex-fill: #6c6;
+}
+
 h1 {
   font-family: 'Lobster', cursive;
 }
@@ -30,9 +34,37 @@ body {
 
 #guessInput {
   clear: both;
+  text-align: center;
+  border-radius: 25px;
 }
 
 #break {
   flex-basis: 100%;
   height: 0;
+}
+
+/* CSS styling for Hexagon adapted from https://jtauber.github.io/articles/css-hexagon.html */
+.hexTop {
+  float: left;
+  border-right: 30px solid var(--hex-fill);
+  border-top: 52px solid transparent;
+  border-bottom: 52px solid transparent;
+}
+
+.hexCenter {
+  float: left;
+  width: 60px;
+  height: 104px;
+  background-color: var(--hex-fill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24pt;
+}
+
+.hexBottom {
+  float: left;
+  border-left: 30px solid var(--hex-fill);
+  border-top: 52px solid transparent;
+  border-bottom: 52px solid transparent;
 }

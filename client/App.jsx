@@ -14,8 +14,6 @@ class App extends React.Component {
       currentGuess: '',
       board: [],
       attemptedLetters: [],
-      visibleMessage: false,
-      message: '',
       prefs: {
         count: 1,
         difficulty: 2,
@@ -26,6 +24,7 @@ class App extends React.Component {
       leaderData: []
     };
     this.addGuess = this.addGuess.bind(this);
+    this.changeHexColor = this.changeHexColor.bind(this);
     this.prepBoard = this.prepBoard.bind(this);
     this.submitGuess = this.submitGuess.bind(this);
   }
@@ -53,6 +52,19 @@ class App extends React.Component {
     });
   }
 
+  changeHexColor() {
+    const colors = {
+      6: '#2ECC40',
+      5: '#01FF70',
+      4: '#ADFF2F',
+      3: '#FFDC00',
+      2: '#FF851B',
+      1: '#FF4136'
+    };
+    const { guesses } = this.state;
+    document.documentElement.style.setProperty('--hex-fill', colors[guesses]);
+  }
+
   prepBoard(target) {
     console.log(target);
     this.setState({
@@ -71,46 +83,34 @@ class App extends React.Component {
 
       // return a message and reset current guess if that letter has been tried already
       if (attemptedLetters.includes(currentGuess)) {
-        this.setState(
-          {
-            visibleMessage: true,
-            message: `You already guessed ${currentGuess}, try again!`,
-            currentGuess: ''
-          },
-          () => {
-            setTimeout(() => {
-              this.setState({ visibleMessage: false });
-            }, 2000);
-          }
-        );
+        this.setState({
+          currentGuess: ''
+        });
         return;
       }
 
       // return a message, decrease remaining guesses, and reset current guess if letter not in target
       if (!target.includes(currentGuess)) {
         if (guesses === 1) {
-          this.setState({
-            gameOver: true,
-            victory: false,
-            guesses: (guesses -= 1),
-            currentGuess: '',
-            board: [],
-            attemptedLetters: []
-          });
+          this.setState(
+            {
+              gameOver: true,
+              victory: false,
+              guesses: (guesses -= 1),
+              currentGuess: '',
+              board: [],
+              attemptedLetters: []
+            },
+            this.changeHexColor()
+          );
         } else {
           this.setState(
             {
               guesses: (guesses -= 1),
-              visibleMessage: true,
-              message: "Oh no! That letter wasn't in the word",
               currentGuess: '',
               attemptedLetters: [...attemptedLetters, currentGuess]
             },
-            () => {
-              setTimeout(() => {
-                this.setState({ visibleMessage: false });
-              }, 2000);
-            }
+            this.changeHexColor()
           );
           return;
         }
@@ -154,22 +154,15 @@ class App extends React.Component {
       guesses,
       board,
       currentGuess,
-      visibleMessage,
-      message,
       gameOver,
       victory,
       target,
       attemptedLetters
     } = this.state;
     return (
-      <Container fluid>
+      <Container>
         <Header />
-        <Strikes
-          guesses={guesses}
-          visibleMessage={visibleMessage}
-          message={message}
-          attemptedLetters={attemptedLetters}
-        />
+        <Strikes guesses={guesses} />
         <Gameboard
           board={board}
           currentGuess={currentGuess}
@@ -178,6 +171,7 @@ class App extends React.Component {
           gameOver={gameOver}
           victory={victory}
           target={target}
+          attemptedLetters={attemptedLetters}
         />
       </Container>
     );

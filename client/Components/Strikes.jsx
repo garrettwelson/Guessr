@@ -1,17 +1,18 @@
 import React from 'react';
+import Row from 'react-bootstrap/Row';
 
 const Strikes = props => {
-  const { guesses, visibleMessage, message, attemptedLetters } = props;
+  const { guesses } = props;
 
   return (
-    <div className="text-center">
-      <span>{guesses}</span>
-      <p>Guesses left</p>
-      {visibleMessage ? <p>{message}</p> : null}
-      {attemptedLetters.length > 0 ? (
-        <p>Attempted Letters: {attemptedLetters.join(' , ')}</p>
-      ) : null}
-    </div>
+    <Row>
+      <div className="text-center mx-auto">
+        <div className="hexTop"></div>
+        <div className="hexCenter">{guesses}</div>
+        <div className="hexBottom"></div>
+        <p>Guesses left</p>
+      </div>
+    </Row>
   );
 };
 

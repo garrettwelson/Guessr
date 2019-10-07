@@ -1,8 +1,18 @@
 /* eslint-disable no-else-return */
 import React from 'react';
+import Row from 'react-bootstrap/Row';
 
 const Gameboard = props => {
-  const { board, currentGuess, addGuess, submitGuess, gameOver, victory, target } = props;
+  const {
+    board,
+    currentGuess,
+    addGuess,
+    submitGuess,
+    gameOver,
+    victory,
+    target,
+    attemptedLetters
+  } = props;
   if (!board) {
     return null;
   } else if (gameOver && victory) {
@@ -19,23 +29,35 @@ const Gameboard = props => {
     );
   } else {
     return (
-      <div id="board_container">
-        <div id="board">
-          {board.map((letter, i) => (
-            <span key={i}> {letter} </span>
-          ))}
-        </div>
-        <div id="break" />
-        <div id="guessInput">
-          <input
-            type="text"
-            value={currentGuess}
-            onChange={addGuess}
-            onKeyDown={submitGuess}
-            placeholder="Guess"
-          />
-        </div>
-      </div>
+      <>
+        <Row>
+          <div id="board_container" className="mx-auto">
+            <div id="board">
+              {board.map((letter, i) => (
+                <span key={i}> {letter} </span>
+              ))}
+            </div>
+            <div id="break" />
+            <div>
+              <input
+                id="guessInput"
+                type="text"
+                value={currentGuess}
+                onChange={addGuess}
+                onKeyDown={submitGuess}
+                placeholder="Guess"
+              />
+            </div>
+          </div>
+        </Row>
+        <Row>
+          <div id="board_container" className="mx-auto">
+            {attemptedLetters.length > 0 ? (
+              <p>Attempted Letters: {attemptedLetters.join(' , ')}</p>
+            ) : null}
+          </div>
+        </Row>
+      </>
     );
   }
 };

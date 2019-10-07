@@ -37,6 +37,7 @@ class App extends React.Component {
     this.getData();
   }
 
+  // method to get new word from server and fetch session data, and update state accordingly
   getData() {
     axios
       .get(`/words`)
@@ -60,6 +61,7 @@ class App extends React.Component {
       });
   }
 
+  // method to track user input into the guess input field
   addGuess(event) {
     let letter;
     // this ensures only one letter is allowed in the input at any given time
@@ -73,6 +75,7 @@ class App extends React.Component {
     });
   }
 
+  // function to change a CSS variable based on the number of remaining guesses, adjusting fill of hexagon shape
   changeHexColor() {
     const colors = {
       6: '#2ECC40',
@@ -87,6 +90,7 @@ class App extends React.Component {
     document.documentElement.style.setProperty('--hex-fill', colors[guesses]);
   }
 
+  // adjust state values based on username and difficulty inputs
   handlePrefsInput(event) {
     if (event.target.name === 'username') {
       this.setState({ username: event.target.value });
@@ -97,6 +101,7 @@ class App extends React.Component {
     }
   }
 
+  // show/hide prefs modal. On hide, send put request to server to update session values
   handlePrefsModal() {
     const { showPrefs, username, difficulty } = this.state;
     if (showPrefs) {
@@ -107,6 +112,7 @@ class App extends React.Component {
     });
   }
 
+  // prepare the game board by setting array of question marks
   prepBoard(target) {
     this.setState({
       board: target.split('').map(() => '?'),
@@ -114,6 +120,7 @@ class App extends React.Component {
     });
   }
 
+  // core app logic for submitting guesses. Handles game win/loss logic
   submitGuess(event) {
     const { target, board, attemptedLetters, currentGuess } = this.state;
     let { guesses } = this.state;

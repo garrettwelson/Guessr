@@ -15,25 +15,34 @@ const Gameboard = props => {
     attemptedLetters,
     getData
   } = props;
+
   if (!board) {
     return null;
   } else if (gameOver && victory) {
     return (
-      <div id="board_container">
-        <h4>Congrats, you won!</h4>
-        <Button variant="outline-primary" onClick={getData}>
-          Start new game
-        </Button>
-      </div>
+      <>
+        <div id="board_container">
+          <h4>Congrats, you won!</h4>
+        </div>
+        <div id="board_container">
+          <Button variant="outline-primary" onClick={getData} id="newGame">
+            Start new game
+          </Button>
+        </div>
+      </>
     );
   } else if (gameOver && !victory) {
     return (
-      <div id="board_container">
-        <h4>Too bad! You lost. The word was: "{target}"</h4>
-        <Button variant="outline-primary" onClick={getData}>
-          Start new game
-        </Button>
-      </div>
+      <>
+        <div id="board_container">
+          <h4>Too bad! You lost. The word was: "{target}"</h4>
+        </div>
+        <div id="board_container">
+          <Button variant="outline-primary" onClick={getData} id="newGame">
+            Start new game
+          </Button>
+        </div>
+      </>
     );
   } else {
     return (

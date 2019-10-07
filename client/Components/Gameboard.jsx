@@ -40,7 +40,7 @@ const Gameboard = props => {
             <div className="break" />
             <div>
               <input
-                id="guessInput"
+                className="userInput"
                 type="text"
                 value={currentGuess}
                 onChange={addGuess}

@@ -16,9 +16,8 @@ class App extends React.Component {
       board: [],
       attemptedLetters: [],
       prefs: {
-        count: 1,
-        difficulty: 2,
-        start: 0
+        username: '',
+        difficulty: 2
       },
       gameOver: false,
       victory: false,
@@ -27,18 +26,17 @@ class App extends React.Component {
     };
     this.addGuess = this.addGuess.bind(this);
     this.changeHexColor = this.changeHexColor.bind(this);
-    this.handlePrefs = this.handlePrefs.bind(this);
+    this.handlePrefsModal = this.handlePrefsModal.bind(this);
+    this.handlePrefsInput = this.handlePrefsInput.bind(this);
     this.prepBoard = this.prepBoard.bind(this);
     this.submitGuess = this.submitGuess.bind(this);
   }
 
   componentDidMount() {
     const { prefs } = this.state;
-    axios
-      .get(`/words?count=${prefs.count}&difficulty=${prefs.difficulty}&start=${prefs.start}`)
-      .then(result => {
-        this.setState({ target: result.data.toLowerCase() }, this.prepBoard(result.data));
-      });
+    axios.get(`/words?difficulty=${prefs.difficulty}`).then(result => {
+      this.setState({ target: result.data.toLowerCase() }, this.prepBoard(result.data));
+    });
   }
 
   addGuess(event) {
@@ -67,7 +65,21 @@ class App extends React.Component {
     document.documentElement.style.setProperty('--hex-fill', colors[guesses]);
   }
 
-  handlePrefs() {
+  handlePrefsInput(event) {
+    if (event.target.name === 'username') {
+      const prefs = { ...this.state.prefs };
+      prefs.username = event.target.value;
+      this.setState({ prefs });
+    }
+
+    if (event.target.name === 'difficulty') {
+      const prefs = { ...this.state.prefs };
+      prefs.difficulty = event.target.value;
+      this.setState({ prefs });
+    }
+  }
+
+  handlePrefsModal() {
     let { showPrefs } = this.state;
     this.setState({
       showPrefs: !showPrefs
@@ -166,11 +178,17 @@ class App extends React.Component {
       victory,
       target,
       attemptedLetters,
-      showPrefs
+      showPrefs,
+      prefs
     } = this.state;
     return (
       <Container>
-        <Header showPrefs={showPrefs} handlePrefs={this.handlePrefs} />
+        <Header
+          showPrefs={showPrefs}
+          handlePrefsModal={this.handlePrefsModal}
+          handlePrefsInput={this.handlePrefsInput}
+          prefs={prefs}
+        />
         <Strikes guesses={guesses} />
         <Gameboard
           board={board}

@@ -3,6 +3,7 @@ import Header from './Components/Header.jsx';
 import Row from 'react-bootstrap/Row';
 import Strikes from './Components/Strikes.jsx';
 import Gameboard from './Components/Gameboard.jsx';
+import Streaks from './Components/Streaks.jsx';
 import Container from 'react-bootstrap/Container';
 import axios from 'axios';
 
@@ -37,19 +38,26 @@ class App extends React.Component {
   }
 
   getData() {
-    axios.get(`/words`).then(result => {
-      console.log(result.data);
-      this.setState(
-        {
-          target: result.data.word.toLowerCase(),
-          currentStreak: result.data.currentStreak,
-          maxStreak: result.data.maxStreak,
-          username: result.data.username,
-          difficulty: result.data.difficulty
-        },
-        this.prepBoard(result.data.word)
-      );
-    });
+    axios
+      .get(`/words`)
+      .then(result => {
+        this.setState(
+          {
+            target: result.data.word.toLowerCase(),
+            currentStreak: result.data.currentStreak,
+            maxStreak: result.data.maxStreak,
+            username: result.data.username,
+            difficulty: result.data.difficulty,
+            attemptedLetters: [],
+            gameOver: false,
+            victory: false
+          },
+          this.prepBoard(result.data.word)
+        );
+      })
+      .then(() => {
+        this.changeHexColor();
+      });
   }
 
   addGuess(event) {
@@ -72,7 +80,8 @@ class App extends React.Component {
       4: '#ADFF2F',
       3: '#FFDC00',
       2: '#FF851B',
-      1: '#FF4136'
+      1: '#FF4136',
+      0: '#AAAAAA'
     };
     const { guesses } = this.state;
     document.documentElement.style.setProperty('--hex-fill', colors[guesses]);
@@ -100,7 +109,8 @@ class App extends React.Component {
 
   prepBoard(target) {
     this.setState({
-      board: target.split('').map(() => '?')
+      board: target.split('').map(() => '?'),
+      guesses: 6
     });
   }
 
@@ -133,7 +143,10 @@ class App extends React.Component {
               board: [],
               attemptedLetters: []
             },
-            this.changeHexColor()
+            () => {
+              this.changeHexColor();
+              axios.put('/streaks', { result: false });
+            }
           );
         } else {
           this.setState(
@@ -157,15 +170,19 @@ class App extends React.Component {
       });
       // if board is complete and matches target
       if (newBoard.join('') === target) {
-        this.setState({
-          gameOver: true,
-          victory: true,
-          target: '',
-          guesses: 6,
-          currentGuess: '',
-          board: [],
-          attemptedLetters: []
-        });
+        this.setState(
+          {
+            gameOver: true,
+            victory: true,
+            target: '',
+            currentGuess: '',
+            board: [],
+            attemptedLetters: []
+          },
+          () => {
+            axios.put('/streaks', { result: true });
+          }
+        );
       } else {
         this.setState({
           board: newBoard,
@@ -215,7 +232,9 @@ class App extends React.Component {
           victory={victory}
           target={target}
           attemptedLetters={attemptedLetters}
+          getData={this.getData}
         />
+        <Streaks username={username} currentStreak={currentStreak} maxStreak={maxStreak} />
       </Container>
     );
   }

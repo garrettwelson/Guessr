@@ -11,8 +11,8 @@ const Header = props => {
       <div className="text-center mx-auto">
         <h1>Guessr</h1>
         <div id="instructions">
-          Simply type in a letter into the "Guess" input box below. Watch out! You only get six
-          strikes, and then it's game over!
+          Simply type in a letter into the "Guess" input box below and press enter to submit it.
+          Watch out! You only get six strikes, and then it's game over!
         </div>
         <Button variant="outline-primary" onClick={handlePrefsModal}>
           Preferences

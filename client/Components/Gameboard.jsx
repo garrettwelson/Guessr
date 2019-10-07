@@ -1,6 +1,7 @@
 /* eslint-disable no-else-return */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
 
 const Gameboard = props => {
   const {
@@ -11,7 +12,8 @@ const Gameboard = props => {
     gameOver,
     victory,
     target,
-    attemptedLetters
+    attemptedLetters,
+    getData
   } = props;
   if (!board) {
     return null;
@@ -19,12 +21,18 @@ const Gameboard = props => {
     return (
       <div id="board_container">
         <h4>Congrats, you won!</h4>
+        <Button variant="outline-primary" onClick={getData}>
+          Start new game
+        </Button>
       </div>
     );
   } else if (gameOver && !victory) {
     return (
       <div id="board_container">
         <h4>Too bad! You lost. The word was: "{target}"</h4>
+        <Button variant="outline-primary" onClick={getData}>
+          Start new game
+        </Button>
       </div>
     );
   } else {

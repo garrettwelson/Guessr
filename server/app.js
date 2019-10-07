@@ -22,8 +22,18 @@ app.put('/prefs', (req, res) => {
   req.session.difficulty = req.body.difficulty;
   res.end();
 });
+
 app.put('/streaks', (req, res) => {
   const win = req.body.result;
+  if (win) {
+    req.session.currentStreak += 1;
+    if (req.session.currentStreak > req.session.maxStreak) {
+      req.session.maxStreak = req.session.currentStreak;
+    }
+  } else if (!win) {
+    req.session.currentStreak = 0;
+  }
+  res.end();
 });
 
 app.get('/words', (req, res) => {
